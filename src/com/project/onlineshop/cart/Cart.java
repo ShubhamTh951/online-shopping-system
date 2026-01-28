@@ -1,9 +1,9 @@
-package com.yourname.onlineshop.cart;
+package com.project.onlineshop.cart;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.yourname.onlineshop.product.Product;
+import com.project.onlineshop.product.Product;
 
 /*
  * Represents a shopping cart in the online shopping system.
