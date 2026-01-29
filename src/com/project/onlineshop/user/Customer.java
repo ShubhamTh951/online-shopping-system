@@ -1,4 +1,4 @@
-package com.project.onlineshop.user
+package com.project.onlineshop.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 */
 
 public class Customer extends User {
-    private List<String> orders;
+    private List<Integer> orders;
 
     public Customer(int userId, String name, String email, String password, String phone, String address) {
         super(userId, name, email, password, phone, address);
         this.orders = new ArrayList<>();
     }
 
-    public void addOrder(String orderId) {
+    public void addOrder(int orderId) {
         orders.add(orderId);
     }
 
@@ -26,7 +26,7 @@ public class Customer extends User {
             return;
         }
 
-        for (String order : orders) {
+        for (int order : orders) {
             System.out.println("Order ID: " + order);
         }
     }

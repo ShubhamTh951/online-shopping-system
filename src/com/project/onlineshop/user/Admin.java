@@ -9,7 +9,7 @@ package com.project.onlineshop.user;
 public class Admin extends User {
     private String adminRole;
 
-    public Admin(int userId, String name, String email, String password, String phone, String address) {
+    public Admin(int userId, String name, String email, String password, String phone, String address, String adminRole) {
         super(userId, name, email, password, phone, address);
         this.adminRole = adminRole;
     }

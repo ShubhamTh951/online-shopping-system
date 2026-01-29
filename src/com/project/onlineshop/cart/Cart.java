@@ -32,6 +32,9 @@ public class Cart {
         cartItems.put(product, existingQty + quantity);
     }
 
+    public Map<Product, Integer> getCartItems() {
+        return new HashMap<>(cartItems);
+    }
     
     public void removeItem(Product product) {
         if (cartItems.remove(product) == null) {

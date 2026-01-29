@@ -61,7 +61,7 @@ public class Product {
         return price;
     }
 
-    public boolean isIsAvailable() {
+    public boolean isAvailable() {
         return isAvailable;
     }   
 }
