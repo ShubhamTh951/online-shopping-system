@@ -1,10 +1,9 @@
 package com.project.onlineshop.user;
 
-/*
-    Represents an admin user responsible for managing
-    products and overseeing orders
-*/
-
+import com.project.onlineshop.order.Order;
+import com.project.onlineshop.product.Product;
+import com.project.onlineshop.service.InventoryService;
+import com.project.onlineshop.service.OrderService;
 
 public class Admin extends User {
     private String adminRole;
@@ -14,16 +13,21 @@ public class Admin extends User {
         this.adminRole = adminRole;
     }
 
-    public void addProduct() {
+    public void addProduct(InventoryService inventory, Product product) {
+        inventory.addProduct(product);
         System.out.println("Product added by admin");
     }
 
-    public void removeProduct() {
-        System.out.println("Product removed by admin");
+    public void removeProduct(InventoryService inventory, int productId) {
+        if (inventory.removeProduct(productId)) {
+            System.out.println("Product removed by admin");
+        } else {
+            System.out.println("Product not found");
+        }
     }
 
-    public void viewAllOrders() {
-        System.out.println("Viewing all orders.");
+    public void viewAllOrders(OrderService orderService) {
+        orderService.displayAllOrders();
     }
     
 }
