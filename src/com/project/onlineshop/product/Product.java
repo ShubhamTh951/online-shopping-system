@@ -1,11 +1,5 @@
 package com.project.onlineshop.product;
 
-/*
-  Represents a product in the online shopping system.
-  This class stores product details and provides
-  basic operations related to product management.
-*/
-
 public class Product {
     private int productId;
     private String name;
@@ -25,13 +19,20 @@ public class Product {
         this.isAvailable = stock > 0;
     }
 
-    public void updateStock(int quantity) {
-        if (quantity < 0) {
-            System.out.println("Stock cannot be negative.");
-            return;
+    public boolean reduceStock(int quantity) {
+        if (stock >= quantity) {
+            stock -= quantity;
+            isAvailable = stock > 0;
+            return true;
         }
-        this.stock = quantity;
-        this.isAvailable = quantity > 0;
+        return false;
+    }
+
+    public void updateStock(int quantity) {
+        if (quantity >= 0) {
+            stock = quantity;
+            isAvailable = stock > 0;
+        }
     }
 
     public void markUnavailable() {
@@ -64,4 +65,20 @@ public class Product {
     public boolean isAvailable() {
         return isAvailable;
     }   
+
+    public int getStock() {
+        return stock;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Product)) return false;
+        return this.productId == ((Product) obj).productId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(productId);
+    }
 }
