@@ -1,38 +1,31 @@
 package com.project.onlineshop.order;
 
+import com.project.onlineshop.product.Product;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
-import com.project.onlineshop.cart.Cart;
-import com.project.onlineshop.product.Product;
-
-/*
-  Represents an order placed by a customer.
-  Once created, an order is independent of the cart.
-*/
 public class Order {
 
     private int orderId;
     private Map<Product, Integer> orderedItems;
     private double totalAmount;
     private Date orderDate;
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
-    public Order(int orderId, Cart cart) {
+    public Order(int orderId, Map<Product, Integer> items, double total) {
         this.orderId = orderId;
-        this.orderedItems = new HashMap<>(cart.getCartItems());
-        this.totalAmount = cart.calculateTotalAmount();
+        this.orderedItems = items;
+        this.totalAmount = total;
         this.orderDate = new Date();
-        this.orderStatus = "PLACED";
+        this.orderStatus = OrderStatus.PLACED;
+    }
+
+    public void markPaid() {
+        orderStatus = OrderStatus.PAID;
     }
 
     public void cancelOrder() {
-        if (!orderStatus.equals("PLACED")) {
-            System.out.println("Order cannot be cancelled.");
-            return;
-        }
-        orderStatus = "CANCELLED";
+        orderStatus = OrderStatus.CANCELLED;
     }
 
     public int getOrderId() {
@@ -43,7 +36,7 @@ public class Order {
         return totalAmount;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 }
