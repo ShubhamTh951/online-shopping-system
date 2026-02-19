@@ -1,9 +1,8 @@
 package com.project.onlineshop.service;
 
+import com.project.onlineshop.product.Product;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.project.onlineshop.product.Product;
 
 public class InventoryService {
 
@@ -13,9 +12,13 @@ public class InventoryService {
         products.add(product);
     }
 
-    public Product findProductById(int productId) {
+    public boolean removeProduct(int id) {
+        return products.removeIf(p -> p.getProductId() == id);
+    }
+
+    public Product findProduct(int id) {
         for (Product p : products) {
-            if (p.getProductId() == productId) {
+            if (p.getProductId() == id) {
                 return p;
             }
         }
