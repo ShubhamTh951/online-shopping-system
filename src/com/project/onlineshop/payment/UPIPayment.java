@@ -1,5 +1,7 @@
 package com.project.onlineshop.payment;
 
+import java.util.Random;
+
 public class UPIPayment implements PaymentMethod {
     private String upiId;
 
@@ -9,7 +11,10 @@ public class UPIPayment implements PaymentMethod {
 
     @Override
     public boolean pay(double amount) {
-        System.out.println("Payment of ₹" + amount + " successful via UPI: " + upiId);
-        return true;
+        if (amount <= 0) return false;
+        if (!upiId.contains("@")) return false;
+
+        Random random = new Random();
+        return random.nextInt(100) >= 20;
     }
 }
