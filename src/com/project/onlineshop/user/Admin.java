@@ -1,6 +1,5 @@
 package com.project.onlineshop.user;
 
-import com.project.onlineshop.order.Order;
 import com.project.onlineshop.product.Product;
 import com.project.onlineshop.service.InventoryService;
 import com.project.onlineshop.service.OrderService;
