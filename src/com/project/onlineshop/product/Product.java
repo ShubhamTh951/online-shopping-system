@@ -70,6 +70,18 @@ public class Product {
         return stock;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
