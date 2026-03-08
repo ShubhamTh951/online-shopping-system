@@ -24,6 +24,19 @@ public class ProductDAO {
       } 
    }
 
+   public boolean removeProduct(int productId) throws Exception {
+
+      String sql = "DELETE FROM products WHERE product_id = ?";
+
+      try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+         stmt.setInt(1, productId);
+
+         return stmt.executeUpdate() > 0;
+      }
+   }
+
    public Product findById(int id) throws Exception {
       String sql = "SELECT * FROM products WHERE product_id = ?";
 

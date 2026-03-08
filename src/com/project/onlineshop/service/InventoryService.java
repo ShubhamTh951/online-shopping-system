@@ -1,33 +1,28 @@
 package com.project.onlineshop.service;
 
+import com.project.onlineshop.dao.ProductDAO;
 import com.project.onlineshop.product.Product;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InventoryService {
 
-    private List<Product> products = new ArrayList<>();
+    private ProductDAO productDAO = new ProductDAO();
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public void addProduct(Product product) throws Exception {
+
+        productDAO.saveProduct(product);
     }
 
-    public boolean removeProduct(int id) {
-        return products.removeIf(p -> p.getProductId() == id);
+    public boolean removeProduct(int productId) throws Exception {
+        return productDAO.removeProduct(productId);
     }
 
-    public Product findProduct(int id) {
-        for (Product p : products) {
-            if (p.getProductId() == id) {
-                return p;
-            }
-        }
-        return null;
+    public Product findProductById(int id) throws Exception {
+
+        return productDAO.findById(id);
     }
 
-    public void displayProducts() {
-        for (Product p : products) {
-            p.displayProductDetails();
-        }
+    public void updateStock(int productId, int newStock) throws Exception {
+
+        productDAO.updateStock(productId, newStock);
     }
 }

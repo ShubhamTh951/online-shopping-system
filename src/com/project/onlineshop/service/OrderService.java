@@ -1,58 +1,60 @@
 package com.project.onlineshop.service;
 
-import com.project.onlineshop.cart.Cart;
-import com.project.onlineshop.order.Order;
+import com.project.onlineshop.dao.*;
 import com.project.onlineshop.payment.PaymentMethod;
 import com.project.onlineshop.product.Product;
 import com.project.onlineshop.user.Customer;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class OrderService {
-    private List<Order> orders = new ArrayList<>();
-    private int orderCounter = 1000;
 
-    public Order placeOrder(Customer customer, Cart cart, PaymentMethod paymentMethod) {
-        if (!customer.isLoggedIn()) return null;
+    private ProductDAO productDAO = new ProductDAO();
+    private UserDAO userDAO = new UserDAO();
+    private OrderDAO orderDAO = new OrderDAO();
 
-        if (cart.isEmpty()) return null;
-        
-        double total = cart.calculateTotalAmount();
-        if (!customer.deductBalance(total)) return null;
+    public boolean placeOrder(Customer customer,
+                              Map<Product, Integer> cartItems,
+                              PaymentMethod payment) throws Exception {
 
-        for (Map.Entry<Product, Integer> entry : cart.getCartItems().entrySet()) {
-            if (!entry.getKey().reduceStock(entry.getValue())) {
-                customer.refund(total);
-                return null;
-            }
+        double total = 0;
+
+        Map<Integer, Integer> productMap = new HashMap<>();
+
+        for (var entry : cartItems.entrySet()) {
+
+            Product product = productDAO.findById(entry.getKey().getProductId());
+
+            if (product.getStock() < entry.getValue())
+                return false;
+
+            total += product.getPrice() * entry.getValue();
+
+            productMap.put(product.getProductId(), entry.getValue());
         }
 
-        boolean paymentSuccess = paymentMethod.pay(total);
+        if (!payment.pay(total))
+            return false;
 
-        if (!paymentSuccess) {
-            for (Map.Entry<Product, Integer> entry :cart.getCartItems().entrySet()) {
-                entry.getKey().updateStock(entry.getKey().getStock() + entry.getValue());
-            }
+        if (!customer.deductBalance(total))
+            return false;
 
-            customer.refund(total);
-            return null;
+        userDAO.updateBalance(customer.getUserId(), customer.getBalance());
+
+        orderDAO.createOrder(customer.getUserId(), total, productMap);
+
+        for (var entry : productMap.entrySet()) {
+
+            Product p = productDAO.findById(entry.getKey());
+            productDAO.updateStock(entry.getKey(),
+                    p.getStock() - entry.getValue());
         }
 
-        Order order = new Order(++orderCounter, cart.getCartItems(), total);
-        order.markPaid();
-        orders.add(order);
-        customer.addOrder(order.getOrderId());
-        return order;
+        return true;
     }
 
-    public void displayAllOrders() {
-        for (Order order : orders) {
-            System.out.println("Order ID: " +
-                order.getOrderId() +
-                " | Status: " +
-                order.getOrderStatus()
-            );
-        }
+    public void displayAllOrders() throws Exception {
+        orderDAO.displayAllOrders();
     }
 }
