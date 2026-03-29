@@ -1,69 +1,114 @@
-# Online Shopping System (Java)
+# Online Shopping System (Java + JDBC + PostgreSQL)
 
-A console-based Java application developed to practice and demonstrate core **Object-Oriented Programming (OOP)** concepts using Java.  
-The project simulates a basic e-commerce workflow including product browsing, cart management, order placement, and payment processing.
+A console-based Java application that simulates a real-world e-commerce system with database integration using JDBC and PostgreSQL.
 
-This project is built incrementally with a focus on **clean design, modular structure, and real-world modeling** rather than UI.
+This project demonstrates both core Object-Oriented Programming (OOP) concepts and backend development principles such as DAO architecture, layered design, transaction handling, and relational database modeling.
 
--------------------------------------------------------------
+---
 
 ## Features
 
-- User management with different roles (Customer, Admin)
-- Product catalog with availability and stock handling
-- Shopping cart with quantity-based item management
-- Order creation from cart with order tracking
-- Payment processing using an interface-based design (UPI implemented)
-- Clear separation of concerns using packages and services
+* User management with roles (Customer, Admin)
+* Product catalog with stock and availability handling
+* Shopping cart with quantity-based item management
+* Order placement with database persistence
+* Payment processing (UPI simulation)
+* Automatic user creation and retrieval from database
+* Order and order-items relational mapping (Many-to-Many)
+* Clean layered architecture (DAO + Service)
 
--------------------------------------------------------------
+---
+
+## Architecture
+
+MainApp (UI Layer)
+↓
+Service Layer (Business Logic)
+↓
+DAO Layer (Database Access)
+↓
+PostgreSQL Database
+
+---
 
 ## Modules
 
-- **User Management**
-  - User (abstract base class)
-  - Customer
-  - Admin
+### User Management
 
-- **Product Management**
-  - Product model with stock and availability logic
+* User (abstract base class)
+* Customer
+* Admin
 
-- **Cart**
-  - Add, remove, update items
-  - Calculate total amount
+### Product Management
 
-- **Order Processing**
-  - Create orders from cart
-  - Maintain order status
+* Product model with stock handling
 
-- **Payment System**
-  - PaymentMethod (interface)
-  - UPIPayment (implementation)
+### Cart
 
-- **Services**
-  - OrderService
-  - InventoryService
+* Add, remove, update items
+* Calculate total amount
 
--------------------------------------------------------------
+### Order System
 
-## Technologies & Concepts Used
+* Order creation from cart
+* Order status tracking
+* Order-items mapping
 
-- Java (Core)
-- Object-Oriented Programming (OOP)
-  - Inheritance
-  - Abstraction
-  - Encapsulation
-  - Interfaces
-- Collections Framework (`List`, `Map`)
-- Modular package structure
-- Command-line compilation and execution
+### Payment System
 
------------------------------------------------------------
+* PaymentMethod (interface)
+* UPIPayment (implementation)
+
+### DAO Layer
+
+* ProductDAO
+* UserDAO
+* OrderDAO
+
+### Services
+
+* InventoryService
+* OrderService
+
+---
+
+## Technologies Used
+
+* Java (Core)
+* JDBC (Java Database Connectivity)
+* PostgreSQL
+* Object-Oriented Programming (OOP)
+* Collections Framework (Map, List)
+* Git & GitHub
+
+---
+
+## Database Schema
+
+Tables used:
+
+* users
+* products
+* orders
+* order_items
+
+Relational design with foreign key constraints and normalization.
+
+---
 
 ## How to Run
 
-# Compile all source files
-javac -d out $(find src -name "*.java")
+### 1. Compile
 
-# Run the application
-java -cp out com.project.onlineshop.app.MainApp
+javac -cp "lib/postgresql-42.7.9.jar" -d out $(find src -name "*.java")
+
+### 2. Run
+
+java -cp "out:lib/postgresql-42.7.9.jar" com.project.onlineshop.app.MainApp
+## Future Improvements
+
+* Convert to REST API using Spring Boot
+* Add authentication and authorization
+* Implement order history for users
+* Add concurrency handling (thread safety)
+* Use connection pooling for performance optimization
