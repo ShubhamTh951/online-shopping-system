@@ -9,7 +9,6 @@ import com.project.onlineshop.service.OrderService;
 import com.project.onlineshop.user.Customer;
 import com.project.onlineshop.dao.UserDAO;
 
-import java.util.Map;
 import java.util.Scanner;
 
 public class MainApp {

@@ -3,7 +3,6 @@ package com.project.onlineshop.dao;
 import com.project.onlineshop.user.Customer;
 import com.project.onlineshop.util.DBConnection;
 
-import java.beans.Customizer;
 import java.sql.*;
 
 public class UserDAO {

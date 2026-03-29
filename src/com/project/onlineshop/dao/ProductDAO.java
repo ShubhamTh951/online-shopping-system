@@ -4,8 +4,6 @@ import com.project.onlineshop.product.Product;
 import com.project.onlineshop.util.DBConnection;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProductDAO {
    public void saveProduct(Product product) throws Exception {
