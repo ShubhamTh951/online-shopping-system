@@ -30,6 +30,41 @@ public class UserDAO {
              return null;
     }
 
+    public Customer saveCustomer(Customer customer) throws Exception {
+
+        String sql = "INSERT INTO users(name, email, password, phone, address, balance, role) VALUES (?, ?, ?, ?, ?, ?, 'CUSTOMER') RETURNING user_id";
+
+        try (Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, customer.getName());
+            stmt.setString(2, customer.getEmail());
+            stmt.setString(3, customer.getPassword());
+            stmt.setString(4, customer.getPhone());
+            stmt.setString(5, customer.getAddress());
+            stmt.setDouble(6, customer.getBalance());
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt(1);
+
+                return new Customer(
+                        id,
+                        customer.getName(),
+                        customer.getEmail(),
+                        customer.getPassword(),
+                        customer.getPhone(),
+                        customer.getAddress(),
+                        customer.getBalance()
+                );
+            }
+        }
+
+        return null;
+    }
+
+
     public void updateBalance(int userId, double newBalance) throws Exception {
 
         String sql = "UPDATE users SET balance = ? WHERE user_id = ?";

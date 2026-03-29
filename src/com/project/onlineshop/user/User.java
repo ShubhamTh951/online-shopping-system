@@ -53,6 +53,26 @@ public abstract class User {
         return loggedIn;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public int getUserId() {
         return userId;
     }
